@@ -9,9 +9,9 @@ import './app.css';
 function App() {
   /* В главный компонент входят данные, мы эти данные отдаем в компонент */
   const data = [
-    {name: 'Daniel G.', salary: 3000, increase: true},
-    {name: 'Michail S.', salary: 1000, increase: false},
-    {name: 'Alex M.', salary: 5000, increase: false},
+    {name: 'Daniel G.', salary: 3000, increase: true, id: 1},
+    {name: 'Michail S.', salary: 1000, increase: false, id: 2},
+    {name: 'Alex M.', salary: 5000, increase: false, id: 3},
   ];
 
   return (

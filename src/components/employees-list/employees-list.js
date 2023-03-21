@@ -7,11 +7,12 @@ const EmployeesList = ({data}) => {
   /* Перебираем данные и возвращаем новый массив из элементов */
   const elements = data.map(item => {
 
+    const {id, ...itemProps} = item
     return (
-      <EmployeesListItem name={item.name} salary={item.salary} increase={item.increase}/>
-
+      
       /* Так же можем раскрыть данные таким образом, ничего не поменяется */
-      //<EmployeesListItem {...item}/>
+      <EmployeesListItem key={id} {...itemProps}/>
+      // <EmployeesListItem name={item.name} salary={item.salary} increase={item.increase}/>
 
     )
   })

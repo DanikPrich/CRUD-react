@@ -2,7 +2,7 @@ import EmployeesListItem from "../empliyees-list-item/empliyees-list-item"
 import './employees-list.css'
 
 /* В компоненте берем данные */
-const EmployeesList = ({data, onDelete, onToggleRise, onToggleIncrease}) => {
+const EmployeesList = ({data, onDelete, onToggleProp}) => {
 
   /* Перебираем данные и возвращаем новый массив из элементов */
   const elements = data.map(item => {
@@ -15,8 +15,8 @@ const EmployeesList = ({data, onDelete, onToggleRise, onToggleIncrease}) => {
         key={id} 
         {...itemProps} 
         onDelete={() => onDelete(id)}
-        onToggleRise={() => onToggleRise(id)}
-        onToggleIncrease={() => onToggleIncrease(id)}
+        /* С помощью метода таргета getAttribute мы получаем значение data-toggle */
+        onToggleProp={(e) => onToggleProp(id, e.currentTarget.getAttribute('data-toggle') )}
         />
       // <EmployeesListItem name={item.name} salary={item.salary} increase={item.increase}/>
 

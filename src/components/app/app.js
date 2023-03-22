@@ -23,40 +23,13 @@ class App extends Component {
     this.maxId = 4
   }
 
-  onToggleIncrease = (id) => {
-    //Первый способ изменения переменной increase на противоположный
-/*  this.setState(({data}) => {
-      const index = data.findIndex(elem => elem.id === id) 
-      const old = data[index];
-      const newItem = {...old, increase: !old.increase};
-      const newArr = [...data.slice(0, index), newItem, ...data.slice(index + 1)];
-
-      return {
-        data: newArr
-      }
-    }) */
-
-    //Второй способ
+  onToggleProp = (id, prop) => {
     this.setState(({data}) => ({
       data: data.map(item => {
         if(item.id === id) {
           return {
             ...item, 
-            increase: !item.increase
-          };
-        };
-        return item;
-      })
-    }))
-  }
-
-  onToggleRise = (id) => {
-    this.setState(({data}) => ({
-      data: data.map(item => {
-        if(item.id === id) {
-          return {
-            ...item, 
-            rise: !item.rise
+            [prop]: !item[prop]
           };
         };
         return item;
@@ -123,8 +96,7 @@ class App extends Component {
         <EmployeesList 
           data={data}
           onDelete={(id) => this.deleteItem(id)}
-          onToggleIncrease={this.onToggleIncrease}
-          onToggleRise={this.onToggleRise}
+          onToggleProp={this.onToggleProp}
         />
         <EmployeeAddForm 
           addItem={(name, salary) => this.addItem(name, salary)}

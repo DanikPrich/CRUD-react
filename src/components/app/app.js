@@ -1,3 +1,5 @@
+import { Component } from 'react';
+
 import AppInfo from '../app-info/app-info';
 import SearchPanel from '../search-panel/search-panel';
 import AppFilter from '../app-filter/app-filter';
@@ -6,26 +8,56 @@ import EmployeeAddForm from '../employees-add-form/employees-add-form';
 
 import './app.css';
 
-function App() {
-  /* В главный компонент входят данные, мы эти данные отдаем в компонент */
-  const data = [
-    {name: 'Daniel G.', salary: 3000, increase: true, id: 1},
-    {name: 'Michail S.', salary: 1000, increase: false, id: 2},
-    {name: 'Alex M.', salary: 5000, increase: false, id: 3},
-  ];
+class App extends Component {
+  constructor(props) {
+    super(props);
+    
+    /* В главный компонент входят данные, мы эти данные отдаем в компонент */
+    this.state = {
+      data: [
+        {name: 'Daniel G.', salary: 3000, increase: true, id: 1},
+        {name: 'Michail S.', salary: 1000, increase: false, id: 2},
+        {name: 'Alex M.', salary: 5000, increase: false, id: 3},
+      ]
+    }
+  }
 
-  return (
-    <div className="app">
-      <AppInfo/>
+  deleteItem = (id) => {
+    this.setState(({data}) => {
+          // Создаем копию массива без нужного элемента 1 способ
+        // Находим индекс элемента массива из айдишника
+      // const index = data.findIndex(elem => elem.id === id);
+        // Создаем копию элемента до нужного
+      // const before = data.slice(0, index);
+        // И после нужного и до конца массива
+      // const after = data.slice(index + 1)
+      // const newArr = [...before, ...after];
 
-      <div className="search-panel">
-        <SearchPanel/>
-        <AppFilter/>
+      return {
+        // 2 способ
+        data: data.filter(item => item.id !== id)
+      }
+    })
+  }
+
+  render() {
+    const {data} = this.state
+  
+    return (
+      <div className="app">
+        <AppInfo/>
+  
+        <div className="search-panel">
+          <SearchPanel/>
+          <AppFilter/>
+        </div>
+        <EmployeesList 
+          data={data}
+          onDelete={(id) => this.deleteItem(id)}/>
+        <EmployeeAddForm/>
       </div>
-      <EmployeesList data={data}/>
-      <EmployeeAddForm/>
-    </div>
-  )
+    )
+  }
 }
 
 export default App;

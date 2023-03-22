@@ -15,13 +15,53 @@ class App extends Component {
     /* В главный компонент входят данные, мы эти данные отдаем в компонент */
     this.state = {
       data: [
-        {name: 'Daniel G.', salary: 3000, increase: true, id: 1},
-        {name: 'Michail S.', salary: 1000, increase: false, id: 2},
-        {name: 'Alex M.', salary: 5000, increase: false, id: 3},
+        {name: 'Daniel G.', salary: 3000, increase: false, rise: true, id: 1},
+        {name: 'Michail S.', salary: 1000, increase: true, rise: false, id: 2},
+        {name: 'Alex M.', salary: 5000, increase: false, rise: false, id: 3},
       ]
     }
-
     this.maxId = 4
+  }
+
+  onToggleIncrease = (id) => {
+    //Первый способ изменения переменной increase на противоположный
+/*  this.setState(({data}) => {
+      const index = data.findIndex(elem => elem.id === id) 
+      const old = data[index];
+      const newItem = {...old, increase: !old.increase};
+      const newArr = [...data.slice(0, index), newItem, ...data.slice(index + 1)];
+
+      return {
+        data: newArr
+      }
+    }) */
+
+    //Второй способ
+    this.setState(({data}) => ({
+      data: data.map(item => {
+        if(item.id === id) {
+          return {
+            ...item, 
+            increase: !item.increase
+          };
+        };
+        return item;
+      })
+    }))
+  }
+
+  onToggleRise = (id) => {
+    this.setState(({data}) => ({
+      data: data.map(item => {
+        if(item.id === id) {
+          return {
+            ...item, 
+            rise: !item.rise
+          };
+        };
+        return item;
+      })
+    }))
   }
 
   deleteItem = (id) => {
@@ -48,7 +88,13 @@ class App extends Component {
     // console.log([...this.state.data, {name: name, salary: salary, increase: false, id: this.maxId}])
     // console.log(name)
 
-    const newItem = {name: name, salary: salary, increase: false, id: this.maxId++};
+    const newItem = {
+      name: name, 
+      salary: salary, 
+      increase: false, 
+      rise: false,
+      id: this.maxId++
+    };
 
     this.setState(({data}) => {
       return {
@@ -59,10 +105,16 @@ class App extends Component {
 
   render() {
     const {data} = this.state
-  
+
+    const totalEmployeeNumber = data.length
+    const totalIncreased = data.filter(item => item.increase).length;
+
     return (
       <div className="app">
-        <AppInfo/>
+        <AppInfo
+          totalEmployeeNumber={totalEmployeeNumber}
+          totalIncreased={totalIncreased}
+        />
   
         <div className="search-panel">
           <SearchPanel/>
@@ -71,6 +123,8 @@ class App extends Component {
         <EmployeesList 
           data={data}
           onDelete={(id) => this.deleteItem(id)}
+          onToggleIncrease={this.onToggleIncrease}
+          onToggleRise={this.onToggleRise}
         />
         <EmployeeAddForm 
           addItem={(name, salary) => this.addItem(name, salary)}

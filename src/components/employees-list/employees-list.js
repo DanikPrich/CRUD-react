@@ -2,7 +2,7 @@ import EmployeesListItem from "../empliyees-list-item/empliyees-list-item"
 import './employees-list.css'
 
 /* В компоненте берем данные */
-const EmployeesList = ({data, onDelete}) => {
+const EmployeesList = ({data, onDelete, onToggleRise, onToggleIncrease}) => {
 
   /* Перебираем данные и возвращаем новый массив из элементов */
   const elements = data.map(item => {
@@ -14,7 +14,10 @@ const EmployeesList = ({data, onDelete}) => {
       <EmployeesListItem 
         key={id} 
         {...itemProps} 
-        onDelete={() => onDelete(id)}/>
+        onDelete={() => onDelete(id)}
+        onToggleRise={() => onToggleRise(id)}
+        onToggleIncrease={() => onToggleIncrease(id)}
+        />
       // <EmployeesListItem name={item.name} salary={item.salary} increase={item.increase}/>
 
     )

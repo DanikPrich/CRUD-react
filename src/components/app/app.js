@@ -18,7 +18,8 @@ class App extends Component {
         {name: 'Daniel G.', salary: 3000, increase: false, rise: true, id: 1},
         {name: 'Michail S.', salary: 1000, increase: true, rise: false, id: 2},
         {name: 'Alex M.', salary: 5000, increase: false, rise: false, id: 3},
-      ]
+      ],
+      term: ''
     }
     this.maxId = 4
   }
@@ -35,6 +36,26 @@ class App extends Component {
         return item;
       })
     }))
+  }
+
+  /* Алгоритм поиска по term */
+  searchEmp = (items, term) => {
+    /* если ничего не введено */
+    if (term.length === 0) {
+      return items
+    }
+    /* Фильтр возвращает только элементы которые прошли проверку внутри */
+    return items.filter(item => {
+      /* indexOf возвращает -1 если не найдет в строке подстроки */
+      return item.name.indexOf(term) > -1
+    })
+  }
+
+  /* Этот метод вызываем в дочернем компоненте и так передаем данные */
+  onUpdateSearch = (term) => {
+    this.setState({
+      term
+    })
   }
 
   deleteItem = (id) => {
@@ -56,11 +77,6 @@ class App extends Component {
   }
 
   addItem = ({name, salary}) => {
-    
-    
-    // console.log([...this.state.data, {name: name, salary: salary, increase: false, id: this.maxId}])
-    // console.log(name)
-
     const newItem = {
       name: name, 
       salary: salary, 
@@ -77,10 +93,14 @@ class App extends Component {
   }
 
   render() {
-    const {data} = this.state
+    const {data, term} = this.state
 
     const totalEmployeeNumber = data.length
     const totalIncreased = data.filter(item => item.increase).length;
+
+    /* Типа компьютед переменная которая будет перерисововаться каждый раз при смене стейта  */
+    const visibleData = this.searchEmp(data, term);
+
 
     return (
       <div className="app">
@@ -90,11 +110,11 @@ class App extends Component {
         />
   
         <div className="search-panel">
-          <SearchPanel/>
+          <SearchPanel onUpdateSearch={this.onUpdateSearch}/>
           <AppFilter/>
         </div>
         <EmployeesList 
-          data={data}
+          data={visibleData}
           onDelete={(id) => this.deleteItem(id)}
           onToggleProp={this.onToggleProp}
         />

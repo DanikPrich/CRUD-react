@@ -19,7 +19,8 @@ class App extends Component {
         {name: 'Michail S.', salary: 1000, increase: true, rise: false, id: 2},
         {name: 'Alex M.', salary: 5000, increase: false, rise: false, id: 3},
       ],
-      term: ''
+      term: '',
+      filter: 'all'
     }
     this.maxId = 4
   }
@@ -47,7 +48,31 @@ class App extends Component {
     /* Фильтр возвращает только элементы которые прошли проверку внутри */
     return items.filter(item => {
       /* indexOf возвращает -1 если не найдет в строке подстроки */
-      return item.name.indexOf(term) > -1
+      return item.name.toLowerCase().indexOf(term.toLowerCase()) > -1
+    })
+  }
+
+  searchAndFilterEmp = (data, term, filter) => {
+    // filter - 'all', 'promoted', 'more'
+
+    const items = this.searchEmp(data, term)
+
+    switch (filter) {
+      case 'rise': {
+        return items.filter(item => item.rise === true)
+      } 
+      case 'more': {
+        return items.filter(item => item.salary > 1000)
+      } 
+      default: {
+        return items
+      }
+    }
+  }
+
+  onFilterSelect = (filter) => {
+    this.setState({
+      filter
     })
   }
 
@@ -93,13 +118,13 @@ class App extends Component {
   }
 
   render() {
-    const {data, term} = this.state
+    const {data, term, filter} = this.state
 
     const totalEmployeeNumber = data.length
     const totalIncreased = data.filter(item => item.increase).length;
 
     /* Типа компьютед переменная которая будет перерисововаться каждый раз при смене стейта  */
-    const visibleData = this.searchEmp(data, term);
+    const visibleData = this.searchAndFilterEmp(data, term, filter);
 
 
     return (
@@ -111,11 +136,11 @@ class App extends Component {
   
         <div className="search-panel">
           <SearchPanel onUpdateSearch={this.onUpdateSearch}/>
-          <AppFilter/>
+          <AppFilter onFilterSelect={this.onFilterSelect} filter={filter}/>
         </div>
         <EmployeesList 
           data={visibleData}
-          onDelete={(id) => this.deleteItem(id)}
+          onDelete={(id) => this.deleteItem(id)}  
           onToggleProp={this.onToggleProp}
         />
         <EmployeeAddForm 

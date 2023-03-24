@@ -1,38 +1,60 @@
-// import { Component } from 'react';
+import { Component } from 'react';
 import './employees-list-item.css'
 
-const EmployeesListItem = (props) => {
-    /* Достаем деструктуризацией пропсы и стейты */
-  const {name, salary, onDelete, onToggleProp, increase, rise} = props;
-  // const {increase, rise} = this.state;
+class EmployeesListItem extends Component {
+    // constructor(props) {
+    //     super(props)
 
-  /* Если в стейте переменные значит изменить стили */
-  let classNames = "list-group-item d-flex justify-content-between";
-  if (increase) classNames += ' increase';
-  if (rise) classNames += ' like';
-  
-  return (
-    <li className={classNames}>
-        {/* Записываем значение data-toggle чтобы знать на что нажал пользователь */}
-        <span onClick={onToggleProp} className="list-group-item-label" data-toggle="rise">{name}</span>
-        <input type="text" className="list-group-item-input" defaultValue={salary + '$'}/>
-        <div className='d-flex justify-content-center align-items-center'>
-            <button type="button"
-                className="btn-cookie btn-sm "
-                onClick={onToggleProp}
-                data-toggle="increase">
-                <i className="fas fa-cookie"></i>
-            </button>
-  
-            <button type="button"
-                    className="btn-trash btn-sm "
-                    onClick={onDelete}>
-                <i className="fas fa-trash"></i>
-            </button>
-            <i className="fas fa-star"></i>
-        </div>
-    </li>
-  )
+    //     this.state = {
+    //         salary: this.props.salary
+    //     }
+    // }
+
+    // onSalaryChange = (e) => {
+    //     /* this.setState({
+    //         salary: e.target.value
+    //     }) */
+    //     this.props.onSalaryChange(e.target.value)
+    // }
+
+    render() {
+        /* Достаем деструктуризацией пропсы и стейты */
+        // const {salary} = this.state
+        const {name, onDelete, onToggleProp, salary, increase, rise, onSalaryChange} = this.props;
+        // const {increase, rise} = this.state;
+
+        /* Если в стейте переменные значит изменить стили */
+        let classNames = "list-group-item d-flex justify-content-between";
+        if (increase) classNames += ' increase';
+        if (rise) classNames += ' like';
+        
+        return (
+        <li className={classNames}>
+            {/* Записываем значение data-toggle чтобы знать на что нажал пользователь */}
+            <span onClick={onToggleProp} className="list-group-item-label" data-toggle="rise">{name}</span>
+            <input 
+                type="number" 
+                className="list-group-item-input" 
+                value={salary} 
+                onChange={(e) => onSalaryChange(e.target.value)}/>
+            <div className='d-flex justify-content-center align-items-center'>
+                <button type="button"
+                    className="btn-cookie btn-sm "
+                    onClick={onToggleProp}
+                    data-toggle="increase">
+                    <i className="fas fa-cookie"></i>
+                </button>
+        
+                <button type="button"
+                        className="btn-trash btn-sm "
+                        onClick={onDelete}>
+                    <i className="fas fa-trash"></i>
+                </button>
+                <i className="fas fa-star"></i>
+            </div>
+        </li>
+        )
+    }
 }
 
 

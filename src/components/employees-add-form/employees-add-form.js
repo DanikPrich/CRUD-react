@@ -1,5 +1,7 @@
 import { Component } from 'react'
-import './employees-add-form.css'
+
+// import './employees-add-form.css'
+import './employees-add-form.scss'
 
 class EmployeeAddForm extends Component{
   constructor(props) {
@@ -10,6 +12,8 @@ class EmployeeAddForm extends Component{
       salary: '',
     }
   }
+
+  // npm i sass --save
 
   onValueChange = (e) => {
     this.setState({

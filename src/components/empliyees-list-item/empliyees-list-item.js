@@ -2,20 +2,6 @@ import { Component } from 'react';
 import './employees-list-item.css'
 
 class EmployeesListItem extends Component {
-    // constructor(props) {
-    //     super(props)
-
-    //     this.state = {
-    //         salary: this.props.salary
-    //     }
-    // }
-
-    // onSalaryChange = (e) => {
-    //     /* this.setState({
-    //         salary: e.target.value
-    //     }) */
-    //     this.props.onSalaryChange(e.target.value)
-    // }
 
     render() {
         /* Достаем деструктуризацией пропсы и стейты */
@@ -31,7 +17,14 @@ class EmployeesListItem extends Component {
         return (
         <li className={classNames}>
             {/* Записываем значение data-toggle чтобы знать на что нажал пользователь */}
-            <span onClick={onToggleProp} className="list-group-item-label" data-toggle="rise">{name}</span>
+            <span 
+                onClick={onToggleProp} 
+                className="list-group-item-label" 
+                data-toggle="rise"
+                style={{fontSize: '40px'}}
+            >
+                {name}
+            </span>
             <input 
                 type="number" 
                 className="list-group-item-input" 
